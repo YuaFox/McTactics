@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir project(':core').file('src/main/java')
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+
+        content {
+            includeGroup 'org.bukkit'
+            includeGroup 'org.spigotmc'
+        }
+    }
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/central' }
+}
+
+dependencies {
+    implementation 'org.jetbrains:annotations:22.0.0'
+    implementation 'org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT' // The Spigot API with no shadowing. Requires the OSS repo.
+    implementation files('../.libs/spigot-1.18-R0.1-SNAPSHOT.jar')
+    implementation project(":core")
+}

@@ -1,0 +1,10 @@
+name: SurvivalReloaded
+main: dev.yuafox.mctactics.a.Main
+version: 1.0
+author: YuaFox
+website: https://yfox.me/
+api-version: 1.18
+commands:
+  a:
+    usage: /
+    description: uwu

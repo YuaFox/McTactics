@@ -1,0 +1,5 @@
+rootProject.name = 'McTactics'
+
+include 'core', '1_18'
+
+project(':1_18').name = 'McTactics-Bukkit-1.18'
