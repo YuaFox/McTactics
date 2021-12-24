@@ -1,14 +1,15 @@
-package dev.yuafox.mctactics.a;
+package dev.yuafox.mctactics.dynamic;
 
 import dev.yuafox.mctactics.McTactics;
-import dev.yuafox.mctactics.a.entity.EntityBucket1;
-import dev.yuafox.mctactics.a.entity.EntityChickenCustom;
+import dev.yuafox.mctactics.dynamic.entity.EntityBucket1;
+import dev.yuafox.mctactics.dynamic.entity.EntityChickenCustom;
 import dev.yuafox.mctactics.arena.Arena;
 import dev.yuafox.mctactics.arena.MtPlayer;
-import dev.yuafox.mctactics.a.entity.EntityFoxCustom;
-import dev.yuafox.mctactics.entity.Mob;
+import dev.yuafox.mctactics.dynamic.entity.EntityFoxCustom;
+import dev.yuafox.mctactics.entity.collection.MobData;
+import dev.yuafox.mctactics.entity.collection.MobSet;
+import dev.yuafox.mctactics.event.PlayerHitEvent;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,8 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
 public class Main extends JavaPlugin implements CommandExecutor, Listener {
 
@@ -27,12 +27,16 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
         McTactics.PLUGIN = this;
         McTactics.LOGGER = this.getLogger();
         McTactics.BUKKIT_VERSION_CODE = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-        Bukkit.getPluginManager().registerEvents(this,this);
+        Bukkit.getPluginManager().registerEvents(new PlayerHitEvent(),this);
 
         EntityBucket1 bucket = new EntityBucket1();
         bucket.register(EntityType.FOX, EntityFoxCustom.class);
         bucket.register(EntityType.CHICKEN, EntityChickenCustom.class);
         McTactics.registerMobBucket(bucket);
+
+        McTactics.SET_TEST = new MobSet();
+        McTactics.SET_TEST.register(EntityType.FOX, Arrays.asList(new MobData(20, 5, 30, 20)));
+        McTactics.SET_TEST.register(EntityType.CHICKEN, Arrays.asList(new MobData(10, 2, 15, 15)));
     }
 
     @Override

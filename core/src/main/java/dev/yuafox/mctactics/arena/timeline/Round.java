@@ -1,6 +1,7 @@
 package dev.yuafox.mctactics.arena.timeline;
 
 import dev.yuafox.mctactics.arena.Arena;
+import dev.yuafox.mctactics.arena.Board;
 
 public abstract class Round {
 

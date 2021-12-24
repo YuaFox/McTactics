@@ -1,11 +1,10 @@
-package dev.yuafox.mctactics.a.entity;
+package dev.yuafox.mctactics.dynamic.entity;
 
 import dev.yuafox.mctactics.entity.Mob;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.animal.EntityFox;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_18_R1.CraftWorld;
-import org.bukkit.entity.EntityType;
 
 public class EntityFoxCustom extends EntityFox implements Mob {
 

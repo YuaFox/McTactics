@@ -1,4 +1,4 @@
-package dev.yuafox.mctactics.a.entity;
+package dev.yuafox.mctactics.dynamic.entity;
 
 import dev.yuafox.mctactics.entity.Mob;
 import dev.yuafox.mctactics.entity.MobBucket;

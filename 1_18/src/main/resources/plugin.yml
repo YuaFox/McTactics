@@ -1,5 +1,5 @@
-name: SurvivalReloaded
-main: dev.yuafox.mctactics.a.Main
+name: McTactics
+main: dev.yuafox.mctactics.dynamic.Main
 version: 1.0
 author: YuaFox
 website: https://yfox.me/

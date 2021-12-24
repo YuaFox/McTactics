@@ -18,7 +18,9 @@ import java.util.Map;
 
 public class Arena {
 
-    private Map<Player, MtPlayer> players;
+    public static Arena arena;
+
+    private final Map<Player, MtPlayer> players;
     private ArenaStatus status;
 
     private BossBar bossBar;
@@ -30,6 +32,8 @@ public class Arena {
         status = ArenaStatus.CREATE;
         this.bossBar = Bukkit.createBossBar("countdown", BarColor.PURPLE, BarStyle.SOLID);
         bossBar.setVisible(true);
+
+        arena = this;
     }
 
     public void addPlayer(MtPlayer player){

@@ -1,5 +1,7 @@
 package dev.yuafox.mctactics.arena;
 
 public enum ArenaStatus {
-    CREATE, COUNTDOWN, GAME, END
+    CREATE, COUNTDOWN,
+    PREPARE, BATTLE,   // INGAME
+    END
 }

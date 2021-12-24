@@ -4,7 +4,7 @@ Work in progress. Minecraft autochess like Teamfight Tactics for Bukkit.
 ### Arena
 - [ ] Timeline
 - [x] Round base
-- [ ] Round PvE
+- [x] Round PvE
 - [ ] Round PvP
 - [ ] Queue system for join
 - [ ] End game

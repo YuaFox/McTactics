@@ -26,12 +26,13 @@ public class Battle {
     public void prepare(){
         board1.prepareBoard(false, null);
         board1.prepareBoard(board2);
+    }
+
+    public void start(){
+        this.prepare();
 
         this.board1Alive = new ArrayList<>(board1.getEntities());
         this.board2Alive = new ArrayList<>(board2.getEntities());
-
-        System.out.println(board1Alive.toString());
-        System.out.println(board2Alive.toString());
 
         board1.getEntities().forEach((e) -> {
             e.setAllies(board1Alive);
@@ -43,11 +44,21 @@ public class Battle {
             e.setEnemies(board1Alive);
         });
 
-        this.taskId = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(McTactics.PLUGIN, () -> {
-            board1Alive.forEach(EntityBattle::tick);
-            board2Alive.forEach(EntityBattle::tick);
-        }, 0L, 1L);
+        this.taskId = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(McTactics.PLUGIN, new Runnable(){
 
+            private int tick = 0;
+
+            @Override
+            public void run() {
+                board1Alive.forEach((e) -> { e.tick(tick); });
+                board2Alive.forEach((e) -> { e.tick(tick); });
+
+                board1Alive.removeIf(EntityBattle::isDead);
+                board2Alive.removeIf(EntityBattle::isDead);
+
+                ++this.tick;
+            }
+        }, 0L, 1L);
     }
 
     public void end(){
