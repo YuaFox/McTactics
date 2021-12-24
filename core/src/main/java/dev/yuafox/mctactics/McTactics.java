@@ -2,7 +2,14 @@ package dev.yuafox.mctactics;
 
 import dev.yuafox.mctactics.entity.MobBucket;
 import dev.yuafox.mctactics.entity.collection.MobSet;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.logging.Logger;
@@ -23,5 +30,15 @@ public class McTactics {
     @Nullable
     public static MobBucket getMobBucket(){
         return mobBucket;
+    }
+
+    public static void spawnFireworks(@NotNull Location location, int power){
+        Firework fw = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
+        FireworkMeta fwm = fw.getFireworkMeta();
+
+        fwm.setPower(power);
+        fwm.addEffect(FireworkEffect.builder().withColor(Color.RED).flicker(true).build());
+        fw.setFireworkMeta(fwm);
+        fw.detonate();
     }
 }

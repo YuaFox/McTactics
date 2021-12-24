@@ -23,7 +23,7 @@ public class RoundStart extends Round {
     @Override
     public void start() {
         this.getArena().getPlayers().forEach((p,v) -> {
-            Board board = new Board(new Location(p.getWorld(), 0.5, -60, 0.5));
+            Board board = new Board(v, new Location(p.getWorld(), 0.5, -60, 0.5));
             board.setEntity(new EntityBattle(EntityType.FOX, this.getArena(), board), 0, 0);
             board.setEntity(new EntityBattle(EntityType.FOX, this.getArena(), board), 1, 0);
 

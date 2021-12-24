@@ -8,6 +8,7 @@ import dev.yuafox.mctactics.arena.MtPlayer;
 import dev.yuafox.mctactics.dynamic.entity.EntityFoxCustom;
 import dev.yuafox.mctactics.entity.collection.MobData;
 import dev.yuafox.mctactics.entity.collection.MobSet;
+import dev.yuafox.mctactics.event.MobDropEvent;
 import dev.yuafox.mctactics.event.PlayerHitEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -28,6 +29,7 @@ public class Main extends JavaPlugin implements CommandExecutor, Listener {
         McTactics.LOGGER = this.getLogger();
         McTactics.BUKKIT_VERSION_CODE = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
         Bukkit.getPluginManager().registerEvents(new PlayerHitEvent(),this);
+        Bukkit.getPluginManager().registerEvents(new MobDropEvent(),this);
 
         EntityBucket1 bucket = new EntityBucket1();
         bucket.register(EntityType.FOX, EntityFoxCustom.class);

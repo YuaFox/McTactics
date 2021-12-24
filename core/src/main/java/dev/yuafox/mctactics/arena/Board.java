@@ -2,6 +2,7 @@ package dev.yuafox.mctactics.arena;
 
 import dev.yuafox.mctactics.entity.EntityBattle;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
+
+    private MtPlayer player;
 
     private final Location corner1Location;
     private final Location centerFlyLocation;
@@ -19,7 +22,9 @@ public class Board {
     private final double spacing;
     private final double margin;
 
-    public Board(Location cornerLocation){
+    public Board(@Nullable MtPlayer player, Location cornerLocation){
+        this.player = player;
+
         this.entityMatrix = new EntityBattle[8][4];
         this.entityList = new ArrayList<>();
         this.spacing = 2D;
@@ -64,6 +69,10 @@ public class Board {
         }else{
             return false;
         }
+    }
+
+    public MtPlayer getPlayer(){
+        return this.player;
     }
 
     public List<EntityBattle> getEntities(){

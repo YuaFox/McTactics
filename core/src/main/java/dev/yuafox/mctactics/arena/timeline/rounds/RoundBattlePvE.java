@@ -9,7 +9,9 @@ import dev.yuafox.mctactics.arena.battle.Battle;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,8 +33,8 @@ public class RoundBattlePvE extends Round {
     @Override
     public void start() {
         this.getArena().getPlayers().forEach((p,v) -> {
-            Board enemy = new Board(new Location(Bukkit.getWorld("world"), 0, 0, 0));
-            enemy.setEntity(new EntityBattle(EntityType.CHICKEN, this.getArena(), null), 0, 0);
+            Board enemy = new Board(null, new Location(Bukkit.getWorld("world"), 0, 0, 0));
+            enemy.setEntity(new EntityBattle(EntityType.CHICKEN, this.getArena(), null).addDrop(new ItemStack(Material.EMERALD)), 0, 0);
             enemy.setEntity(new EntityBattle(EntityType.CHICKEN, this.getArena(), null), 1, 0);
             enemy.setEntity(new EntityBattle(EntityType.CHICKEN, this.getArena(), null), 0, 1);
 

@@ -13,9 +13,11 @@ import dev.yuafox.mctactics.ai.target.BasicTargetGoal;
 import dev.yuafox.mctactics.ai.target.TargetGoal;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -61,6 +63,8 @@ public class EntityBattle {
     private Board board;
     private BoardLocation boardLocation;
 
+    private List<ItemStack> drops;
+
 
     public EntityBattle(EntityType entityType, Arena arena, Board board) {
         this.entityType = entityType;
@@ -70,6 +74,8 @@ public class EntityBattle {
         this.actionGoals = new LinkedList<>();
 
         this.board = board;
+
+        this.drops = new LinkedList<>();
 
         // Test
         this.targetGoals.add(new BasicTargetGoal());
@@ -83,7 +89,7 @@ public class EntityBattle {
 
     public void spawn(Location location){
         if(this.entity != null){
-            this.kill(false, false);
+            this.kill(null, false, false);
         }
 
         this.entity = McTactics.getMobBucket().spawn(this.entityType, location);
@@ -104,13 +110,21 @@ public class EntityBattle {
         entityMap.put(this.entity, this);
     }
 
-    public void kill(boolean agony, boolean dropLoot){
+    public void kill(@Nullable EntityBattle killer, boolean agony, boolean dropLoot){
         if(agony){
             this.entity.damage(2000);
         }else {
             this.entity.remove();
             this.entity.setHealth(0);
         }
+
+        if(dropLoot && !this.drops.isEmpty() && killer != null){
+            McTactics.spawnFireworks(this.getLocation(), 0);
+            Player bukkitPlayer = killer.getBoard().getPlayer().getBukkitPlayer();
+            this.drops.forEach(bukkitPlayer.getInventory()::addItem);
+            bukkitPlayer.playSound(bukkitPlayer.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1f, 1f);
+        }
+
         entityMap.remove(this.entity);
     }
 
@@ -164,6 +178,15 @@ public class EntityBattle {
     }
 
     /* ----------------+
+    |       Drops      |
+    +-----------------*/
+
+    public EntityBattle addDrop(ItemStack itemStack){
+        this.drops.add(itemStack);
+        return this;
+    }
+
+    /* ----------------+
     |      Location    |
     +-----------------*/
 
@@ -188,7 +211,7 @@ public class EntityBattle {
     +-----------------*/
 
     @ApiStatus.Internal
-    public void damage(DamageType type, double amount){
+    public void damage(@Nullable EntityBattle source, DamageType type, double amount){
         double amount_mod;
         amount_mod = switch (type) {
             case PHYSICAL -> amount * (100d / (100d + this.armor));
@@ -197,12 +220,12 @@ public class EntityBattle {
         this.health_current -= amount;
         this.entity.setCustomName("❤ "+(int)this.health_current+"/"+(int)this.health_max);
         this.entity.damage(1);
-        if(this.health_current <= 0) this.kill(true, true);
+        if(this.health_current <= 0) this.kill(source,true, true);
     }
 
     public boolean basicAttack(EntityBattle target, int tick){
         if(tick >= this.attack_next){
-            target.damage(DamageType.PHYSICAL, this.damage);
+            target.damage(this, DamageType.PHYSICAL, this.damage);
             this.attack_next = tick + this.attack_delay;
             return true;
         }else return false;
