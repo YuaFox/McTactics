@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 public final class MobSet {
 
@@ -20,10 +21,14 @@ public final class MobSet {
     }
 
     @Nullable
-    public MobData getStats(EntityType type, int level){
+    public MobData getData(EntityType type, int level){
         List<MobData> mobData = data.get(type);
         if(mobData == null) return null;
         if(mobData.size() <= level) return null;
         return mobData.get(level);
+    }
+
+    public void forEach(BiConsumer<EntityType, List<MobData>> action){
+        this.data.forEach(action);
     }
 }

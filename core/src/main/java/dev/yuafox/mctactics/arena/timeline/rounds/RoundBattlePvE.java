@@ -34,9 +34,9 @@ public class RoundBattlePvE extends Round {
     public void start() {
         this.getArena().getPlayers().forEach((p,v) -> {
             Board enemy = new Board(null, new Location(Bukkit.getWorld("world"), 0, 0, 0));
-            enemy.setEntity(new EntityBattle(EntityType.CHICKEN, this.getArena(), null).addDrop(new ItemStack(Material.EMERALD)), 0, 0);
-            enemy.setEntity(new EntityBattle(EntityType.CHICKEN, this.getArena(), null), 1, 0);
-            enemy.setEntity(new EntityBattle(EntityType.CHICKEN, this.getArena(), null), 0, 1);
+            enemy.setEntity(new EntityBattle(EntityType.CHICKEN, null).addDrop(new ItemStack(Material.EMERALD)), 0, 0);
+            enemy.setEntity(new EntityBattle(EntityType.CHICKEN, null), 1, 0);
+            enemy.setEntity(new EntityBattle(EntityType.CHICKEN, null), 0, 1);
 
             Battle battle = new Battle(v.getBoard(), enemy);
             battle.prepare();

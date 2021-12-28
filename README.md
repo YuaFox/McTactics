@@ -11,8 +11,8 @@ Work in progress. Minecraft autochess like Teamfight Tactics for Bukkit.
 
 ### Board
 - [x] Create board / spawn
-- [ ] Move units
-- [ ] Bench
+- [x] Move units
+- [x] Bench
 - [ ] Items
 - [ ] Mob Synergy
 
@@ -28,4 +28,4 @@ Work in progress. Minecraft autochess like Teamfight Tactics for Bukkit.
 ### Shop
 - [ ] Economy System
 - [ ] Leveling
-- [ ] Mob pool
+- [x] Mob pool

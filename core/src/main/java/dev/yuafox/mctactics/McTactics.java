@@ -41,4 +41,28 @@ public class McTactics {
         fw.setFireworkMeta(fwm);
         fw.detonate();
     }
+
+    public static String renderHeathBar(int health){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("[");
+        int h = 0;
+        for(; h < health-20; h += 20){
+            stringBuilder.append("█");
+        }
+        System.out.println(h);
+
+        int s = health % 20;
+        System.out.println(s);
+        if(s == 0) stringBuilder.append("█");
+        else if(s < 5) stringBuilder.append(" ");
+        else if(s < 10) stringBuilder.append("░");
+        else if(s < 15) stringBuilder.append("▒");
+        else stringBuilder.append("▓");
+
+        for(; h < 80; h += 20){
+            stringBuilder.append(" ");
+        }
+        stringBuilder.append("]");
+        return stringBuilder.toString();
+    }
 }

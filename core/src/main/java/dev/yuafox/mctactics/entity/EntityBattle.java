@@ -59,14 +59,17 @@ public class EntityBattle {
 
 
     // Location
-    private Arena arena;
     private Board board;
     private BoardLocation boardLocation;
+    private int benchLocation;
 
     private List<ItemStack> drops;
 
+    public EntityBattle(EntityType entityType) {
+        this(entityType, null);
+    }
 
-    public EntityBattle(EntityType entityType, Arena arena, Board board) {
+    public EntityBattle(EntityType entityType, Board board) {
         this.entityType = entityType;
         this.entity = null;
         this.target = null;
@@ -77,6 +80,8 @@ public class EntityBattle {
 
         this.drops = new LinkedList<>();
 
+        this.benchLocation = -1;
+
         // Test
         this.targetGoals.add(new BasicTargetGoal());
         this.actionGoals.add(new AttackIfRangeGoal());
@@ -86,6 +91,9 @@ public class EntityBattle {
     /* ----------------+
     |       Mob        |
     +-----------------*/
+    public EntityType getEntityType() {
+        return this.entityType;
+    }
 
     public void spawn(Location location){
         if(this.entity != null){
@@ -97,7 +105,7 @@ public class EntityBattle {
         this.entity.setHealth(1500);
         this.entity.setCustomNameVisible(true);
 
-        MobData stats = McTactics.SET_TEST.getStats(entityType, 0);
+        MobData stats = McTactics.SET_TEST.getData(entityType, 0);
         this.health_max = stats.health();
         this.health_current = stats.health();
         this.damage = stats.damage();
@@ -105,7 +113,7 @@ public class EntityBattle {
         this.attack_next = 0;
         this.armor = stats.armor();
 
-        this.entity.setCustomName("❤ "+(int)this.health_current+"/"+(int)this.health_max);
+        this.entity.setCustomName(McTactics.renderHeathBar((int)(this.health_current*100/this.health_max)));
 
         entityMap.put(this.entity, this);
     }
@@ -138,7 +146,7 @@ public class EntityBattle {
     public double getDistance(EntityBattle target){ return this.entity.getLocation().distance(target.entity.getLocation()); }
 
     public void move(double x, double z){
-        Vector multiply = new Vector(x, 0.0, z).normalize().multiply(0.4);
+        Vector multiply = new Vector(x, 0.0, z).normalize().multiply(0.2);
         this.entity.setRotation((float) (Math.atan2(x, z) * (180 / Math.PI) + 180), 0f);
         this.entity.setVelocity(multiply);
     }
@@ -206,19 +214,26 @@ public class EntityBattle {
         this.board = board;
     }
 
+    public int getBenchLocation() {
+        return this.benchLocation;
+    }
+
+    public void setBenchLocation(int benchLocation) {
+        this.benchLocation = benchLocation;
+    }
+
     /* ----------------+
     |      Combat      |
     +-----------------*/
 
     @ApiStatus.Internal
     public void damage(@Nullable EntityBattle source, DamageType type, double amount){
-        double amount_mod;
-        amount_mod = switch (type) {
+        double amount_mod = switch (type) {
             case PHYSICAL -> amount * (100d / (100d + this.armor));
             default -> amount;
         };
-        this.health_current -= amount;
-        this.entity.setCustomName("❤ "+(int)this.health_current+"/"+(int)this.health_max);
+        this.health_current -= amount_mod;
+        this.entity.setCustomName(McTactics.renderHeathBar((int)(this.health_current*100/this.health_max)));
         this.entity.damage(1);
         if(this.health_current <= 0) this.kill(source,true, true);
     }

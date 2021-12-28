@@ -1,6 +1,7 @@
 package dev.yuafox.mctactics.arena;
 
 import dev.yuafox.mctactics.McTactics;
+import dev.yuafox.mctactics.arena.shop.ShopGlobal;
 import dev.yuafox.mctactics.arena.timeline.Round;
 import dev.yuafox.mctactics.arena.timeline.Stage;
 import dev.yuafox.mctactics.arena.timeline.rounds.RoundBattlePvE;
@@ -25,6 +26,9 @@ public class Arena {
 
     private BossBar bossBar;
 
+    // Shop
+    ShopGlobal shop;
+
     private int task;
 
     public Arena(){
@@ -32,7 +36,7 @@ public class Arena {
         status = ArenaStatus.CREATE;
         this.bossBar = Bukkit.createBossBar("countdown", BarColor.PURPLE, BarStyle.SOLID);
         bossBar.setVisible(true);
-
+        this.shop = new ShopGlobal(McTactics.SET_TEST);
         arena = this;
     }
 

@@ -1,3 +1,5 @@
 package dev.yuafox.mctactics.entity.collection;
 
-public record MobData(double health, double damage, double attack_delay, double armor) {}
+import dev.yuafox.mctactics.entity.Rarity;
+
+public record MobData(Rarity rarity, double health, double damage, double attack_delay, double armor) {}
